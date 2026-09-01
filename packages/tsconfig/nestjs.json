@@ -1,0 +1,12 @@
+{
+    "extends": "./base.json",
+    "compilerOptions": {
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "target": "ES2022",
+      "declaration": true,
+      "sourceMap": true,
+      "outDir": "${configDir}/dist",
+      "incremental": true
+    }
+  }

@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: cinema-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-cinema}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cinema}
+      POSTGRES_DB: ${POSTGRES_DB:-catalog}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    # در Postgres 18 به بعد باید کل /var/lib/postgresql مانت شود، نه زیرپوشه data
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_USER:-cinema} -d ${POSTGRES_DB:-catalog}',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:
